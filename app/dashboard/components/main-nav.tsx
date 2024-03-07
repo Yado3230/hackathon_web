@@ -38,7 +38,7 @@ export const MainNav: FC<SidebarProps> = ({
   const menuItems = [
     {
       href: `/dashboard`,
-      label: "Dashboard",
+      label: "Overview",
       active: pathname === `/dashboard`,
       authorized: true,
       icon: (
@@ -57,6 +57,18 @@ export const MainNav: FC<SidebarProps> = ({
         <LucideWorkflow
           size={15}
           color={`${pathname === `/dashboard/tasks` ? "#fff" : "#707E94"}`}
+        />
+      ),
+    },
+    {
+      href: `/dashboard/chats`,
+      label: "Chats",
+      active: pathname === `/dashboard/chats`,
+      authorized: true,
+      icon: (
+        <LucideWorkflow
+          size={15}
+          color={`${pathname === `/dashboard/chats` ? "#fff" : "#707E94"}`}
         />
       ),
     },

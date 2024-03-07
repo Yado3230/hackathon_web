@@ -4,7 +4,7 @@ export interface Login {
 }
 
 export interface UserRequest {
-  fullName: string;
+  financialStatus: string;
   username: string;
   password: string;
 }

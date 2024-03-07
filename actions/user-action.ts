@@ -25,7 +25,7 @@ export const getAllUsers = async (): Promise<UserResponse[]> => {
 
 export const createUser = async (data: UserRequest): Promise<UserResponse> => {
   try {
-    const response = await fetch(`${API_URL}api/v1/users`, {
+    const response = await fetch(`${API_URL}api/auth/sign-up`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -112,11 +112,50 @@ export const deleteUser = async (id: string): Promise<Boolean> => {
   }
 };
 
+export const fetchInfoByNationalID = async (id: string): Promise<any> => {
+  try {
+    const res = await fetch(`${API_URL}api/user/getEkycCustomer/${id}`, {
+      method: "GET",
+    });
+    if (!res.ok) {
+      throw new Error(`Request failed with status: ${res.status}`);
+    }
+    const responseData = await res.json();
+    return responseData;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error; // Rethrow the error to handle it in the caller
+  }
+};
+
+export const updateFinantialStatus = async (data: any): Promise<any> => {
+  try {
+    const response = await fetch(`${API_URL}api/user/updateFinantialStatus`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status: ${response.status}`);
+    }
+
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error; // Rethrow the error to handle it in the caller
+  }
+};
+
 export const logUser = async (data: Login): Promise<LoginResponse> => {
   try {
-    const response = await fetch(`${API_URL}login`, {
+    const response = await fetch(`${API_URL}api/auth/sign-in`, {
       method: "POST",
       body: JSON.stringify(data),
+      credentials: "include", // Include cookies in cross-origin requests
     });
 
     if (!response.ok) {
@@ -128,6 +167,18 @@ export const logUser = async (data: Login): Promise<LoginResponse> => {
     }
 
     const responseData = await response.json();
+
+    // Example: Accessing token from cookie
+    const token = document?.cookie
+      ?.split("; ")
+      ?.find((row) => row.startsWith("token"))
+      .split("=")[1];
+
+    // Now you can use the token as a header in your subsequent requests
+    // For example:
+    // const headers = { 'Authorization': `Bearer ${token}` };
+    // const fetchDataResponse = await fetch(`${API_URL}your-endpoint`, { headers });
+
     return responseData;
   } catch (error) {
     if (error instanceof TypeError) {

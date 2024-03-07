@@ -22,10 +22,10 @@ import { UserRequest } from "@/types/types";
 import { createUser } from "@/actions/user-action";
 
 const formSchema = z.object({
-  fullName: z.string().min(1),
+  financialStatus: z.string().min(1),
   username: z.string().min(1),
   password: z.string().min(1),
-  confirmPassword: z.string().min(1),
+  confirmPassword: z.string().optional(),
 });
 type LevelFormValues = z.infer<typeof formSchema>;
 
@@ -36,7 +36,7 @@ const SignUp: React.FC = () => {
   const form = useForm<LevelFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fullName: "",
+      financialStatus: "FREE",
       username: "",
       password: "",
       confirmPassword: "",
@@ -221,27 +221,6 @@ const SignUp: React.FC = () => {
                     <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                       Sign Up
                     </h1>
-                    <div className="space-y-2">
-                      <FormField
-                        control={form.control}
-                        name="fullName"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Full Name:</FormLabel>
-                            <FormControl>
-                              <Input
-                                type="text"
-                                className="ring-1"
-                                placeholder="Name"
-                                disabled={loading}
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
                     <div className="space-y-2">
                       <FormField
                         control={form.control}
