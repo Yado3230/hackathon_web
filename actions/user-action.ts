@@ -167,18 +167,6 @@ export const logUser = async (data: Login): Promise<LoginResponse> => {
     }
 
     const responseData = await response.json();
-
-    // Example: Accessing token from cookie
-    const token = document?.cookie
-      ?.split("; ")
-      ?.find((row) => row.startsWith("token"))
-      .split("=")[1];
-
-    // Now you can use the token as a header in your subsequent requests
-    // For example:
-    // const headers = { 'Authorization': `Bearer ${token}` };
-    // const fetchDataResponse = await fetch(`${API_URL}your-endpoint`, { headers });
-
     return responseData;
   } catch (error) {
     if (error instanceof TypeError) {
